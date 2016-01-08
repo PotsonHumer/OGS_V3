@@ -17,10 +17,8 @@
 			#'jp' => array('languge' => 'jap','langugeTag' => 'jap'),
 		),
 
-		'rootPath' => 'V3',
-		'filePath' => 'update_files',
-		'imgPath' => 'images',
-		'jsPath' => 'js',
+		
+
 	);
 
 ?>

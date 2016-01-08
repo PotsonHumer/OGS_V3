@@ -20,10 +20,14 @@
 
 		function __construct(){
 			self::$base = ROOT_PATH;
-			
+			self::$cfg = include(ROOT_PATH.'config/basic.php');
+		}
+
+		public function errorHandle($code,$msg,$file,$line,$context){
+			$errorArgs = func_get_args();
+			array_pop($errorArgs);
+			var_dump($errorArgs);
 		}
 	}
-
-	new CORE;
 
 ?>
