@@ -5,7 +5,7 @@
 	include_once ROOT_PATH.'core.php';
 
 	error_reporting(E_WARNING | E_ERROR);
-	set_error_handler(array('CORE','errorHandle'));
+	set_error_handler(array('CORE','errorHandle'),E_WARNING | E_ERROR);
 
 	new CORE;
 ?>

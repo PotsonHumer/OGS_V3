@@ -17,8 +17,11 @@
 			#'jp' => array('languge' => 'jap','langugeTag' => 'jap'),
 		),
 
-		
-
+		'filter' => array(
+			'file' => array('index','core'), # 針對根目錄檔案的過濾器，寫入不要 inlcude 的檔案
+			'dir' => array(), # 針對子目錄檔案的過濾器，寫入不要 inlcude 的目錄名稱
+			'class' => array(), # 針對功能目錄檔案的過濾器，寫入不要 inlcude 的目錄名稱
+		),
 	);
 
 ?>
