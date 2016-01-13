@@ -34,13 +34,18 @@
 			new ROUTER();
 		}
 
+		# 常駐程序
+		private static function permanent(){
+
+		}
+
 		# 錯誤處理
 		public function errorHandle($code,$msg,$file,$line,$context){
 			$errorArgs = func_get_args();
 
 			print_r($errorArgs);
 
-			# Will go ERROR Class after all;
+			# Will go ERROR Class from here;
 		}
 
 		# 自動 include
@@ -77,18 +82,59 @@
 			foreach($class_dirs as $c_key => $c_path){
 				$c_name = str_replace(self::$base.'class/', '', $c_path);
 				$class = file_exists($c_path.self::$slash.'index.php');
-				#$backend = file_exists($c_path.self::$slash.'backend.php');
 				
 				if(!in_array($c_name,$class_filter) && $class){
 					include_once $c_path.self::$slash.'index.php';
 				}
-
-				/*
-				if(!in_array($c_name,$class_filter) && $backend){
-					include_once $c_path.self::$slash.'backend.php';
-				}
-				*/
 			}
+		}
+
+		# summon include
+		public static function summon($summon=__FILE__){
+
+			$now_path_array = explode("/",$summon);
+			$now_file_name = array_pop($now_path_array);
+
+			$self_path = self::real_path($summon);
+
+			$file_array = glob($self_path.'*.php');
+			if(is_array($file_array) && count($file_array) > 1){
+				foreach($file_array as $file_key => $file_path){
+					if(!preg_match('/(summon.php|'.$now_file_name.')/',$file_path)){
+						include_once $file_path;
+					}
+				}
+			}
+		}
+
+		# 系統訊息
+		public static function msg($msg=false,$redirect=false,$sec=2){
+			if(is_array($msg) && count($msg) == "2"){
+				$msg_array = $msg;
+				$msg = $msg_array[0];
+				$redirect = $msg_array[1];
+			}
+
+			if(!empty($msg)){
+				VIEW::assignGlobal("TAG_MSG",$msg);
+			}
+
+			if(!empty($redirect)){
+				header("Refresh: {$sec}; url={$redirect}");
+			}
+		}
+
+		# 取得 IP
+		public static function getIP(){
+			if(!empty($_SERVER['HTTP_CLIENT_IP'])){
+				$IP = $_SERVER['HTTP_CLIENT_IP'];
+			}elseif(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
+				$IP = $_SERVER['HTTP_X_FORWARDED_FOR'];
+			}else{
+				$IP = $_SERVER['REMOTE_ADDR'];
+			}
+
+			return $IP;
 		}
 	}
 
